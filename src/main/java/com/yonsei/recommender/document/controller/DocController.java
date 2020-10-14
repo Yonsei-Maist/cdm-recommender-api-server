@@ -1,11 +1,14 @@
 package com.yonsei.recommender.document.controller;
 
+import com.yonsei.recommender.document.dto.DocListResponseDto;
 import com.yonsei.recommender.document.dto.DocRequestDto;
 import com.yonsei.recommender.document.dto.DocResponseDto;
 import com.yonsei.recommender.document.dto.DocSaveRequestDto;
 import com.yonsei.recommender.document.service.DocSerivce;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -24,4 +27,8 @@ public class DocController {
         return docService.findById(dto.getId());
     }
 
+    @PostMapping("/cdm/doc/list")
+    public List<DocListResponseDto> findAll(@RequestBody DocRequestDto dto) throws Exception {
+        return docService.findAll(dto.getUserId());
+    }
 }
