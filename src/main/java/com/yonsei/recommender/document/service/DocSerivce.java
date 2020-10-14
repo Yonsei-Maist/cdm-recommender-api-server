@@ -1,6 +1,8 @@
 package com.yonsei.recommender.document.service;
 
 import com.yonsei.recommender.document.dao.DocRepository;
+import com.yonsei.recommender.document.domain.Doc;
+import com.yonsei.recommender.document.dto.DocResponseDto;
 import com.yonsei.recommender.document.dto.DocSaveRequestDto;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,14 @@ public class DocSerivce {
     @Transactional
     public void save(DocSaveRequestDto docDto) throws Exception {
         docRepository.save(docDto.toEntity());
+    }
+
+    @Transactional(readOnly = true)
+    public DocResponseDto findById(String id) throws Exception {
+        Doc entity = docRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("id="+id));
+
+        return new DocResponseDto(entity);
     }
 
 }
