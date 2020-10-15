@@ -23,7 +23,7 @@ public class WordController {
         return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
     }
 
-    @PostMapping("/cdm/words")
+    @PostMapping("/cdm/words/list")
     public ResponseEntity<ResponseMessage> findAll(@RequestBody PagingDto pagingDto) throws Exception {
         int totalRecordCount = wordService.countAll();
         pagingDto.setTotalRecordCount(totalRecordCount);
@@ -38,4 +38,11 @@ public class WordController {
             return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
         }
     }
+
+    @DeleteMapping("/cdm/words")
+    public ResponseEntity<ResponseMessage> delete() throws Exception {
+        wordService.delete();
+        return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
+    }
+
 }

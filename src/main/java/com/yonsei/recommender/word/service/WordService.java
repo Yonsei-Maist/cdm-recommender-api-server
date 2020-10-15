@@ -22,7 +22,6 @@ public class WordService {
 
     @NonNull
     private final SimilarityWordRepository similarityWordRepository;
-
     @NonNull
     private final WordRepository wordRepository;
 
@@ -50,6 +49,11 @@ public class WordService {
     @Transactional(readOnly = true)
     public int countAll() throws Exception {
         return wordRepository.countAllBy();
+    }
+
+    @Transactional
+    public void delete() throws Exception {
+        wordRepository.deleteAll();
     }
 
 }
