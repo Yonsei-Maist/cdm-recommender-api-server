@@ -1,11 +1,13 @@
 package com.yonsei.recommender.word.dao;
 
 import com.yonsei.recommender.word.domain.Word;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
-
-import java.util.Optional;
 
 public interface WordRepository extends MongoRepository<Word, String> {
 
-    Optional<Word> findByEmrWordId(String id);
+    int countAllBy();
+
+    Page<Word> findAllByOrderByWordAsc(Pageable pageable);
 }

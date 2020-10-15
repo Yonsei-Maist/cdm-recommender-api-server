@@ -7,25 +7,25 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
-@Document("COL_WORD")
+@Document("COL_SIMILARITY")
 @NoArgsConstructor
 @Getter
-public class Word {
+public class SimilarityWord {
 
     @Id
     @Field("_id")
     private String id;
 
-    @Field("str_text")
-    private String word;
+    @Field("id_word_emr")
+    private String emrWordId;
 
-    @Field("bool_is_emr")
-    private String emrExists;
+    @Field("arr_cdm_words")
+    private Object cdmWordsList;
 
     @Builder
-    public Word(String id, String word, String emrExists) {
+    public SimilarityWord(String id, String emrWordId, Object cdmWordsList) {
         this.id = id;
-        this.word = word;
-        this.emrExists = emrExists;
+        this.emrWordId = emrWordId;
+        this.cdmWordsList = cdmWordsList;
     }
 }

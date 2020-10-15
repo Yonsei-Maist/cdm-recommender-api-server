@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class WordRequestDto {
+public class SimilarityWordRequestDto {
 
     private String word;
 }
