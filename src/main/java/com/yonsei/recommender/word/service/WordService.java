@@ -17,8 +17,9 @@ public class WordService {
 
     @Transactional(readOnly = true)
     public WordResponseDto findByEmrWordId(String id) throws Exception {
+        Word entity = wordRepository.findByEmrWordId(id)
+                .orElseThrow(() -> new IllegalArgumentException("id="+id));
 
-        Word entity = wordRepository.findByEmrWordId(id);
         return new WordResponseDto(entity);
     }
 }

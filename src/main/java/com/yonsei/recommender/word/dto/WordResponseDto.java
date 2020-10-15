@@ -8,12 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class WordResponseDto {
 
-    private String id;
     private String emrWordId;
     private Object cdmWordsList;
 
     public WordResponseDto(Word entity) {
-        this.id = entity.getId();
         this.emrWordId = entity.getEmrWordId();
         this.cdmWordsList = entity.getCdmWordsList();
     }

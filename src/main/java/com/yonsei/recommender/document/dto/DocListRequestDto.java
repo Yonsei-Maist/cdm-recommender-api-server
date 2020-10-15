@@ -9,9 +9,9 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @NoArgsConstructor
-public class DocRequestDto {
+public class DocListRequestDto {
 
     @NotEmpty
-    private String id;
+    private String userId;
 
 }

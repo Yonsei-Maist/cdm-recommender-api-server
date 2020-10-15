@@ -1,14 +1,16 @@
 package com.yonsei.recommender.document.controller;
 
-import com.yonsei.recommender.document.dto.DocListResponseDto;
+import com.yonsei.recommender.document.dto.DocListRequestDto;
 import com.yonsei.recommender.document.dto.DocRequestDto;
-import com.yonsei.recommender.document.dto.DocResponseDto;
 import com.yonsei.recommender.document.dto.DocSaveRequestDto;
 import com.yonsei.recommender.document.service.DocSerivce;
+import com.yonsei.recommender.global.common.ResponseMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 
 @RequiredArgsConstructor
@@ -18,17 +20,24 @@ public class DocController {
     private final DocSerivce docService;
 
     @PostMapping("/cdm/doc")
-    public void save(@RequestBody DocSaveRequestDto dto) throws Exception {
+    public ResponseEntity<ResponseMessage> save(@RequestBody @Valid final DocSaveRequestDto dto) throws Exception {
         docService.save(dto);
+        return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
     }
 
     @PostMapping("/cdm/doc/page")
-    public DocResponseDto findById(@RequestBody DocRequestDto dto) throws Exception {
-        return docService.findById(dto.getId());
+    public ResponseEntity<ResponseMessage> findById(@RequestBody @Valid DocRequestDto dto) throws Exception {
+        ResponseMessage responseMessage = ResponseMessage.builder()
+                .data(docService.findById(dto.getId()))
+                .build();
+        return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
     }
 
     @PostMapping("/cdm/doc/list")
-    public List<DocListResponseDto> findAll(@RequestBody DocRequestDto dto) throws Exception {
-        return docService.findAll(dto.getUserId());
+    public ResponseEntity<ResponseMessage> findAll(@RequestBody @Valid DocListRequestDto dto) throws Exception {
+        ResponseMessage responseMessage = ResponseMessage.builder()
+                .data(docService.findAll(dto.getUserId()))
+                .build();
+        return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
     }
 }
