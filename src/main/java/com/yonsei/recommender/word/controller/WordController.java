@@ -39,7 +39,7 @@ public class WordController {
         }
     }
 
-    @DeleteMapping("/cdm/words")
+    @PostMapping("/cdm/words")
     public ResponseEntity<ResponseMessage> delete() throws Exception {
         wordService.delete();
         return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
