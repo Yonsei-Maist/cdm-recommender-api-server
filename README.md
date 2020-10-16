@@ -15,7 +15,6 @@
 - [Getting Started](#getting-started)
 - [Author](#author)
 - [Maintainer](#maintainer)
-- [License](#license)
 
 
 <!-- ABOUT THE PROJECT -->
