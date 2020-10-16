@@ -8,13 +8,15 @@ import kr.ac.yonsei.recommender.global.common.ResponseMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 
 @RequiredArgsConstructor
-@RestController
+@Controller
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DocController {
 
     private final DocSerivce docService;
@@ -39,5 +41,15 @@ public class DocController {
                 .data(docService.findAll(dto.getUserId()))
                 .build();
         return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
+    }
+
+    /**
+     * Show CDM Recommender System View
+     * @return view name
+     * @throws Exception all of error
+     */
+    @RequestMapping(value="/cdm")
+    public String index() throws Exception {
+        return "index.html";
     }
 }

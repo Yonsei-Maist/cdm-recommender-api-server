@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class WordController {
 
     private final WordService wordService;
