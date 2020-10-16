@@ -76,7 +76,3 @@ Mina Kim, Yonsei Univ. Researcher since 2020.08
 <!-- MAINTAINER -->
 ## Maintainer
 Mina Kim, mmmmm70@yonsei.ac.kr (2020.10 ~)
-
-<!-- LICENSE -->
-## License
-Distributed under the Medical Artificial Intelligence Solution Team - MAIST, Yonsei University Wonju College of Medicine.
