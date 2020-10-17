@@ -27,7 +27,7 @@ spring:
       username: ENC(TVviqA/lIxgtqKVrygHwocDxeKIxs8VIXiWWMFiEYFM=)
       password: ENC(amjTikz/7Q/9JaBalhKuJRjKHpJvyZfx7FqgsWXKv7g=)
 server:
-  port: 8888
+  port: 8899
 logging:
   level:
     root: info
