@@ -1,0 +1,42 @@
+jasypt:
+  encryptor:
+    bean: stringEncryptor
+
+--- # local
+spring:
+  profiles: local
+  data:
+    mongodb:
+      host: ENC(qXPRbNcp2LLbys7XBJZbs6lHs9INERMpB6p14pXWbdg=) # format of text to need to decrypt
+      port: ENC(3QAKffLGMBEyXrtaDNGElruN1bep4JUtxL5ILtQ5lQ4=)
+      database: ENC(TVviqA/lIxgtqKVrygHwocDxeKIxs8VIXiWWMFiEYFM=)
+      username: ENC(TVviqA/lIxgtqKVrygHwocDxeKIxs8VIXiWWMFiEYFM=)
+      password: ENC(amjTikz/7Q/9JaBalhKuJRjKHpJvyZfx7FqgsWXKv7g=)
+logging:
+  level:
+    root: debug
+
+--- # dev
+spring:
+  profiles: dev
+  data:
+    mongodb:
+      host: ENC(qXPRbNcp2LLbys7XBJZbs6lHs9INERMpB6p14pXWbdg=) # format of text to need to decrypt
+      port: ENC(3QAKffLGMBEyXrtaDNGElruN1bep4JUtxL5ILtQ5lQ4=)
+      database: ENC(TVviqA/lIxgtqKVrygHwocDxeKIxs8VIXiWWMFiEYFM=)
+      username: ENC(TVviqA/lIxgtqKVrygHwocDxeKIxs8VIXiWWMFiEYFM=)
+      password: ENC(amjTikz/7Q/9JaBalhKuJRjKHpJvyZfx7FqgsWXKv7g=)
+server:
+  port: 8888
+logging:
+  level:
+    root: info
+
+--- # prod
+spring:
+  profiles: prod
+server:
+  port: 80
+logging:
+  level:
+    root: error

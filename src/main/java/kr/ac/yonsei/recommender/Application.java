@@ -1,4 +1,4 @@
-package com.yonsei.recommender;
+package kr.ac.yonsei.recommender;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
