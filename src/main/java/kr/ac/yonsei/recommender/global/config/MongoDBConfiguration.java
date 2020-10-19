@@ -1,3 +1,8 @@
+/**
+ * Configuring mongoDB to remove class fields
+ * @author Mina Kim, Yonsei Univ. Researcher, since 2020.08~
+ * @Date 2020.10.19
+ */
 package kr.ac.yonsei.recommender.global.config;
 
 import org.springframework.beans.factory.annotation.Autowired;

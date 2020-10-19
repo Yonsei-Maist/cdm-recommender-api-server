@@ -1,3 +1,8 @@
+/**
+ * Save and load EMR documents
+ * @author Mina Kim, Yonsei Univ. Researcher, since 2020.08~
+ * @Date 2020.10.19
+ */
 package kr.ac.yonsei.recommender.document.service;
 
 import kr.ac.yonsei.recommender.document.dao.DocRepository;
@@ -20,11 +25,22 @@ public class DocSerivce {
     @NonNull
     private final DocRepository docRepository;
 
+    /**
+     * Save the EMR document
+     * @param dto DocSaveRequestDto
+     * @throws Exception all of error
+     */
     @Transactional
-    public void save(DocSaveRequestDto docDto) throws Exception {
-        docRepository.save(docDto.toEntity());
+    public void save(DocSaveRequestDto dto) throws Exception {
+        docRepository.save(dto.toEntity());
     }
 
+    /**
+     * Get the EMR document
+     * @param id
+     * @return DocResponseDto
+     * @throws Exception all of error
+     */
     @Transactional(readOnly = true)
     public DocResponseDto findById(String id) throws Exception {
         Doc entity = docRepository.findById(id)
@@ -33,6 +49,12 @@ public class DocSerivce {
         return new DocResponseDto(entity);
     }
 
+    /**
+     * Get a list of EMR documents
+     * @param userId
+     * @return List<DocListResponseDto>
+     * @throws Exception all of error
+     */
     @Transactional
     public List<DocListResponseDto> findAll(String userId) throws Exception {
         List<DocListResponseDto> docList = docRepository

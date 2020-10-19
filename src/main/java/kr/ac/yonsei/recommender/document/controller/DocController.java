@@ -1,3 +1,8 @@
+/**
+ * Save and load EMR documents
+ * @author Mina Kim, Yonsei Univ. Researcher, since 2020.08~
+ * @Date 2020.10.19
+ */
 package kr.ac.yonsei.recommender.document.controller;
 
 import kr.ac.yonsei.recommender.document.dto.DocListRequestDto;
@@ -13,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-
 @RequiredArgsConstructor
 @Controller
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -21,13 +25,25 @@ public class DocController {
 
     private final DocSerivce docService;
 
-    @PostMapping("/cdm/doc")
+    /**
+     * Save the EMR document
+     * @param dto DocSaveRequestDto
+     * @return Response message
+     * @throws Exception all of error
+     */
+    @PostMapping("/emr/doc")
     public ResponseEntity<ResponseMessage> save(@RequestBody @Valid final DocSaveRequestDto dto) throws Exception {
         docService.save(dto);
         return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
     }
 
-    @PostMapping("/cdm/doc/page")
+    /**
+     * Get the EMR document
+     * @param dto DocRequestDto
+     * @return Response message, DocResponseDto
+     * @throws Exception all of error
+     */
+    @PostMapping("/emr/doc/page")
     public ResponseEntity<ResponseMessage> findById(@RequestBody @Valid DocRequestDto dto) throws Exception {
         ResponseMessage responseMessage = ResponseMessage.builder()
                 .data(docService.findById(dto.getId()))
@@ -35,7 +51,13 @@ public class DocController {
         return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
     }
 
-    @PostMapping("/cdm/doc/list")
+    /**
+     * Get a list of EMR documents
+     * @param dto DocListRequestDto
+     * @return Response message, List<DocListResponseDto>
+     * @throws Exception all of error
+     */
+    @PostMapping("/emr/doc/list")
     public ResponseEntity<ResponseMessage> findAll(@RequestBody @Valid DocListRequestDto dto) throws Exception {
         ResponseMessage responseMessage = ResponseMessage.builder()
                 .data(docService.findAll(dto.getUserId()))

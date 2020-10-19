@@ -1,3 +1,8 @@
+/**
+ * Work to convert EMR terms to CDM terms
+ * @author Mina Kim, Yonsei Univ. Researcher, since 2020.08~
+ * @Date 2020.10.19
+ */
 package kr.ac.yonsei.recommender.word.service;
 
 import kr.ac.yonsei.recommender.word.dao.SimilarityWordRepository;
@@ -22,9 +27,16 @@ public class WordService {
 
     @NonNull
     private final SimilarityWordRepository similarityWordRepository;
+
     @NonNull
     private final WordRepository wordRepository;
 
+    /**
+     * Get a list of CDM similar words
+     * @param id
+     * @return SimilarityWordResponseDto
+     * @throws Exception all of error
+     */
     @Transactional(readOnly = true)
     public SimilarityWordResponseDto findByEmrWordId(String id) throws Exception {
         SimilarityWord entity = similarityWordRepository.findByEmrWordId(id)
@@ -33,6 +45,12 @@ public class WordService {
         return new SimilarityWordResponseDto(entity);
     }
 
+    /**
+     * Get a list of CDM&EMR association relationship (paging)
+     * @param pagingDto PagingDto
+     * @return List<WordListResponseDto>
+     * @throws Exception all of error
+     */
     @Transactional(readOnly = true)
     public List<WordListResponseDto> findAll(PagingDto pagingDto) throws Exception {
         Pageable paging = PageRequest.of(pagingDto.getCurrentPageNo()-1, pagingDto.getRecordCountPerPage());
@@ -46,11 +64,20 @@ public class WordService {
         return wordList;
     }
 
+    /**
+     * Get the count of CDM&EMR association relationship
+     * @return count
+     * @throws Exception all of error
+     */
     @Transactional(readOnly = true)
     public int countAll() throws Exception {
         return wordRepository.countAllBy();
     }
 
+    /**
+     * Initialization of CDM&EMR association list
+     * @throws Exception all of error
+     */
     @Transactional
     public void delete() throws Exception {
         wordRepository.deleteAll();
