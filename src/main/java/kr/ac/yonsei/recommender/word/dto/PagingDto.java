@@ -1,3 +1,8 @@
+/**
+ * Paging dto
+ * @author Mina Kim, Yonsei Univ. Researcher, since 2020.08~
+ * @Date 2020.10.19
+ */
 package kr.ac.yonsei.recommender.word.dto;
 
 import lombok.Getter;
@@ -7,15 +12,15 @@ import lombok.Setter;
 @Setter
 public class PagingDto {
 
-    private int currentPageNo = 1;//현재 페이지 번호
-    private int pageSize = 10;//페이지 리스트에 게시되는 페이지 건 수 (설정)
-    private int recordCountPerPage = 20;//한 페이지당 게시되는 건 수 (설정)
-    private int totalRecordCount = 0;//전체 건 수
-    private int totalPageCount = 0;//전체 페이지 개수
-    private int firstRecordIndex = 0;//첫 페이지 인덱스 번호(글 번호)
-    private int lastRecordIndex = 0;//마지막 페이지 인덱스 번호(글 번호)
-    private int firstPageNoOnPageList = 1;//페이지 리스트의 첫 페이지 번호
-    private int lastPageNoOnPageList = 1;//페이지 리스트의 마지막 페이지 번호
+    private int currentPageNo = 1; // current page number
+    private int pageSize = 10;// number of pages in the page list (setting)
+    private int recordCountPerPage = 20;// number of posts on one page (setting)
+    private int totalRecordCount = 0;// total post
+    private int totalPageCount = 0;// total page
+    private int firstRecordIndex = 0;// first page index number
+    private int lastRecordIndex = 0;// last page index number
+    private int firstPageNoOnPageList = 1;// first page number of page list
+    private int lastPageNoOnPageList = 1;// last page number in page list
 
     public int getTotalPageCount() {
         totalPageCount = ((getTotalRecordCount()-1)/getRecordCountPerPage()) + 1;

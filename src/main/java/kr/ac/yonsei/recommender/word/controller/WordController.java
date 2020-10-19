@@ -1,3 +1,8 @@
+/**
+ * Work to convert EMR terms to CDM terms
+ * @author Mina Kim, Yonsei Univ. Researcher, since 2020.08~
+ * @Date 2020.10.19
+ */
 package kr.ac.yonsei.recommender.word.controller;
 
 import kr.ac.yonsei.recommender.global.common.ResponseMessage;
@@ -16,6 +21,12 @@ public class WordController {
 
     private final WordService wordService;
 
+    /**
+     * Get a list of CDM similar words
+     * @param dto SimilarityWordRequestDto
+     * @return Response message, SimilarityWordResponseDto
+     * @throws Exception all of error
+     */
     @PostMapping("/cdm/similarity/words")
     public ResponseEntity<ResponseMessage> findByEmrWordId(@RequestBody SimilarityWordRequestDto dto) throws Exception {
         ResponseMessage responseMessage = ResponseMessage.builder()
@@ -24,6 +35,12 @@ public class WordController {
         return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
     }
 
+    /**
+     * Get a list of CDM&EMR association relationship (paging)
+     * @param pagingDto PagingDto
+     * @return Response message, List<WordListResponseDto>
+     * @throws Exception all of error
+     */
     @PostMapping("/cdm/words/list")
     public ResponseEntity<ResponseMessage> findAll(@RequestBody PagingDto pagingDto) throws Exception {
         int totalRecordCount = wordService.countAll();
@@ -40,6 +57,11 @@ public class WordController {
         }
     }
 
+    /**
+     * Initialization of CDM&EMR association list
+     * @return Response message
+     * @throws Exception all of error
+     */
     @PostMapping("/cdm/words")
     public ResponseEntity<ResponseMessage> delete() throws Exception {
         wordService.delete();
