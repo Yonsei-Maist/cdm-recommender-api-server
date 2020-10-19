@@ -21,13 +21,13 @@ public class DocController {
 
     private final DocSerivce docService;
 
-    @PostMapping("/cdm/doc")
+    @PostMapping("/emr/doc")
     public ResponseEntity<ResponseMessage> save(@RequestBody @Valid final DocSaveRequestDto dto) throws Exception {
         docService.save(dto);
         return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
     }
 
-    @PostMapping("/cdm/doc/page")
+    @PostMapping("/emr/doc/page")
     public ResponseEntity<ResponseMessage> findById(@RequestBody @Valid DocRequestDto dto) throws Exception {
         ResponseMessage responseMessage = ResponseMessage.builder()
                 .data(docService.findById(dto.getId()))
@@ -35,7 +35,7 @@ public class DocController {
         return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
     }
 
-    @PostMapping("/cdm/doc/list")
+    @PostMapping("/emr/doc/list")
     public ResponseEntity<ResponseMessage> findAll(@RequestBody @Valid DocListRequestDto dto) throws Exception {
         ResponseMessage responseMessage = ResponseMessage.builder()
                 .data(docService.findAll(dto.getUserId()))
