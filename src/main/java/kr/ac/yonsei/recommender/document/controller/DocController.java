@@ -11,12 +11,17 @@ import kr.ac.yonsei.recommender.document.dto.DocSaveRequestDto;
 import kr.ac.yonsei.recommender.document.service.DocSerivce;
 import kr.ac.yonsei.recommender.global.common.ResponseMessage;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.connector.Connector;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.InetAddress;
 
 @RequiredArgsConstructor
 @Controller
@@ -71,7 +76,9 @@ public class DocController {
      * @throws Exception all of error
      */
     @RequestMapping(value="/cdm")
-    public String index() throws Exception {
+    public String index(HttpServletRequest request, Model model) throws Exception {
+        String baseUrl = String.format("%s://%s:%d/",request.getScheme(),  request.getServerName(), request.getServerPort());
+        model.addAttribute("APIUrl", baseUrl);
         return "index.html";
     }
 }
