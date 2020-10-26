@@ -10,6 +10,22 @@
     <link rel="manifest" href="/manifest.json"/>
     <title>CDM Recommender System</title>
     <link href="/lib/react-cdm-rcs/cdm-rcs-0.1.0.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script th:inline="javascript">
+      $(document).ready(function () {
+
+        if (typeof CDMRecommender === 'undefined') {
+          throw new Error('Cannot find CDMRecommender')
+        }
+
+        var url = /*[[${APIUrl}]]*/ '';
+        var app = new CDMRecommender.MainApp();
+
+        app.init("root", {
+          APIServer : url
+        })
+      });
+    </script>
 </head>
 <body>
 <noscript>You need to enable JavaScript to run this app.</noscript>
