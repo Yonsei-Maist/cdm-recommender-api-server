@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
      * @param e IllegalArgumentException
      * @return Response message
      */
-    @ExceptionHandler(IllegalArgumentException.class)
+/*    @ExceptionHandler(IllegalArgumentException.class)
     protected ResponseEntity<ErrorResponseMessage> handleIllegalArgumentException(IllegalArgumentException e) {
         log.error("IllegalArgumentException", e);
 
@@ -32,14 +32,14 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<ErrorResponseMessage>(responseMessage, HttpStatus.BAD_REQUEST);
-    }
+    }*/
 
     /**
      * Handle exceptions that occur when essential values are not sent
      * @param e MethodArgumentNotValidException
      * @return Response message
      */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+/*    @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ErrorResponseMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error("MethodArgumentNotValidException", e);
 
@@ -49,14 +49,14 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<ErrorResponseMessage>(responseMessage, HttpStatus.BAD_REQUEST);
-    }
+    }*/
 
     /**
      * Handle exceptions that occur when requesting a method of an unsupported type
      * @param e HttpRequestMethodNotSupportedException
      * @return Response message
      */
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+/*    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     protected ResponseEntity<ErrorResponseMessage> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
         log.error("handleHttpRequestMethodNotSupportedException", e);
 
@@ -66,14 +66,14 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<ErrorResponseMessage>(responseMessage, HttpStatus.METHOD_NOT_ALLOWED);
-    }
+    }*/
 
     /**
      * Handle all errors
      * @param e Exception
      * @return Response message
      */
-    @ExceptionHandler(Exception.class)
+/*    @ExceptionHandler(Exception.class)
     protected ResponseEntity<ErrorResponseMessage> handleException(Exception e) {
         log.error("handleEntityNotFoundException", e);
 
@@ -83,5 +83,16 @@ public class GlobalExceptionHandler {
                 .build();
 
         return new ResponseEntity<ErrorResponseMessage>(responseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
+    }*/
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ErrorResponseMessage> handleException(Exception e) {
+        log.error("handleEntityNotFoundException", e);
+
+        ErrorResponseMessage responseMessage = ErrorResponseMessage.builder()
+                .id("200")
+                .message("fail")
+                .build();
+
+        return new ResponseEntity<ErrorResponseMessage>(responseMessage, HttpStatus.OK);
     }
 }
