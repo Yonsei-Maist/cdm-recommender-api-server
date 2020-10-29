@@ -12,6 +12,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
+
 @Document("COL_SIMILARITY")
 @NoArgsConstructor
 @Getter
@@ -25,10 +27,23 @@ public class SimilarityWord {
     private String emrWordId;
 
     @Field("arr_cdm_words")
-    private Object cdmWordsList;
+    private ArrayList<CdmWord> cdmWordsList;
+
+
+    @NoArgsConstructor
+    @Getter
+    public class CdmWord {
+
+        @Field("id_word_cdm")
+        private String cdmWordId;
+
+        @Field("float_similarity")
+        private float floatSimilarity;
+
+    }
 
     @Builder
-    public SimilarityWord(String id, String emrWordId, Object cdmWordsList) {
+    public SimilarityWord(String id, String emrWordId, ArrayList<CdmWord> cdmWordsList) {
         this.id = id;
         this.emrWordId = emrWordId;
         this.cdmWordsList = cdmWordsList;
