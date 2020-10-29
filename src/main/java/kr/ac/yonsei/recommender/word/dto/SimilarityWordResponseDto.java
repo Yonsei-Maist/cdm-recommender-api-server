@@ -9,12 +9,14 @@ import kr.ac.yonsei.recommender.word.domain.SimilarityWord;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+
 @Getter
 @NoArgsConstructor
 public class SimilarityWordResponseDto {
 
     private String emrWordId;
-    private Object cdmWordsList;
+    private ArrayList<SimilarityWord.CdmWord> cdmWordsList;
 
     public SimilarityWordResponseDto(SimilarityWord entity) {
         this.emrWordId = entity.getEmrWordId();
