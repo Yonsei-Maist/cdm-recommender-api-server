@@ -8,15 +8,17 @@ package kr.ac.yonsei.recommender.word.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.ArrayList;
 
-@Document("COL_SIMILARITY")
+@Document(collection = "COL_SIMILARITY")
 @NoArgsConstructor
 @Getter
+@Setter
 public class SimilarityWord {
 
     @Id
@@ -24,7 +26,7 @@ public class SimilarityWord {
     private String id;
 
     @Field("id_word_emr")
-    private String emrWordId;
+    private String emrWordId; //FK(COL_WORD)
 
     @Field("arr_cdm_words")
     private ArrayList<CdmWord> cdmWordsList;
@@ -40,6 +42,8 @@ public class SimilarityWord {
         @Field("float_similarity")
         private float floatSimilarity;
 
+        @Field("detail")
+        private Word detail;
     }
 
     @Builder

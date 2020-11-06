@@ -5,31 +5,36 @@
  */
 package kr.ac.yonsei.recommender.word.service;
 
-import kr.ac.yonsei.recommender.word.dao.SimilarityWordRepository;
 import kr.ac.yonsei.recommender.word.dao.WordRepository;
 import kr.ac.yonsei.recommender.word.domain.SimilarityWord;
+import kr.ac.yonsei.recommender.word.domain.Word;
 import kr.ac.yonsei.recommender.word.dto.PagingDto;
 import kr.ac.yonsei.recommender.word.dto.SimilarityWordResponseDto;
 import kr.ac.yonsei.recommender.word.dto.WordListResponseDto;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.springframework.data.mongodb.core.aggregation.Aggregation.*;
+
 @RequiredArgsConstructor
 @Service
 public class WordService {
 
     @NonNull
-    private final SimilarityWordRepository similarityWordRepository;
-
-    @NonNull
     private final WordRepository wordRepository;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     /**
      * Get a list of CDM similar words
@@ -39,8 +44,19 @@ public class WordService {
      */
     @Transactional(readOnly = true)
     public SimilarityWordResponseDto findByEmrWordId(String id) throws Exception {
-        SimilarityWord entity = similarityWordRepository.findByEmrWordId(id)
-                .orElseThrow(() -> new IllegalArgumentException("id="+id));
+
+        Aggregation aggregation = newAggregation(
+                match(Criteria.where("id_word_emr").is(id))
+                , unwind("arr_cdm_words")
+                , lookup("COL_WORD", "arr_cdm_words.id_word_cdm", "_id", "arr_cdm_words.detail")
+                , unwind("arr_cdm_words.detail")
+                , group("_id")
+                        .first("id_word_emr").as("id_word_emr")
+                        .push("arr_cdm_words").as("arr_cdm_words")
+        );
+
+        List<SimilarityWord> result = mongoTemplate.aggregate(aggregation, "COL_SIMILARITY", SimilarityWord.class).getMappedResults();
+        SimilarityWord entity = result.get(0);
 
         return new SimilarityWordResponseDto(entity);
     }
@@ -53,10 +69,18 @@ public class WordService {
      */
     @Transactional(readOnly = true)
     public List<WordListResponseDto> findAll(PagingDto pagingDto) throws Exception {
-        Pageable paging = PageRequest.of(pagingDto.getCurrentPageNo()-1, pagingDto.getRecordCountPerPage());
 
-        List<WordListResponseDto> wordList = wordRepository
-                .findAllByOrderByWordAsc(paging)
+        Aggregation aggregation = newAggregation(
+                lookup("COL_SYNONYM", "_id", "id_word_emr", "synonym")
+                , unwind("synonym",false)
+                , skip((pagingDto.getCurrentPageNo()-1) * pagingDto.getRecordCountPerPage())
+                , limit(pagingDto.getRecordCountPerPage())
+        );
+
+        AggregationResults results = mongoTemplate.aggregate(aggregation, "COL_WORD", Word.class);
+        List<Word> list = results.getMappedResults();
+
+        List<WordListResponseDto> wordList = list
                 .stream()
                 .map(WordListResponseDto::new)
                 .collect(Collectors.toList());
@@ -71,7 +95,21 @@ public class WordService {
      */
     @Transactional(readOnly = true)
     public int countAll() throws Exception {
-        return wordRepository.countAllBy();
+
+        Aggregation aggregation = newAggregation(
+                lookup("COL_SYNONYM", "_id", "id_word_emr", "synonym")
+                , unwind("synonym",false)
+        );
+
+        AggregationResults results = mongoTemplate.aggregate(aggregation, "COL_WORD", Word.class);
+        List<Word> list = results.getMappedResults();
+
+        List<WordListResponseDto> wordList = list
+                .stream()
+                .map(WordListResponseDto::new)
+                .collect(Collectors.toList());
+
+        return wordList.size();
     }
 
     /**
