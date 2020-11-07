@@ -57,15 +57,13 @@ public class WordController {
         List<WordListResponseDto> wordList = wordService.findAll(pagingDto);
 
         JSONObject obj =new JSONObject();
-        JSONArray arr =new JSONArray();
         obj.put("recordCountPerPage", pagingDto.getRecordCountPerPage());
+        obj.put("wordList", wordList);
         obj.put("totalRecordCount", totalRecordCount);
-        arr.add(obj);
-        arr.add(wordList);
 
         if(totalRecordCount!=0){
             ResponseMessage responseMessage = ResponseMessage.builder()
-                    .data(arr)
+                    .data(obj)
                     .build();
             return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
         }
