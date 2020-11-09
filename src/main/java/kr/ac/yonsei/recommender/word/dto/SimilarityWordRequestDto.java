@@ -14,5 +14,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SimilarityWordRequestDto {
 
-    private String word;
+    private String id;
 }

@@ -9,6 +9,7 @@ import kr.ac.yonsei.recommender.global.common.ResponseMessage;
 import kr.ac.yonsei.recommender.word.dto.PagingDto;
 import kr.ac.yonsei.recommender.word.dto.SimilarityWordRequestDto;
 import kr.ac.yonsei.recommender.word.dto.WordListResponseDto;
+import kr.ac.yonsei.recommender.word.dto.WordRequestDto;
 import kr.ac.yonsei.recommender.word.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -39,7 +40,21 @@ public class WordController {
     @PostMapping("/cdm/similarity/words")
     public ResponseEntity<ResponseMessage> findByEmrWordId(@RequestBody SimilarityWordRequestDto dto) throws Exception {
         ResponseMessage responseMessage = ResponseMessage.builder()
-                .data(wordService.findByEmrWordId(dto.getWord()))
+                .data(wordService.findByEmrWordId(dto.getId()))
+                .build();
+        return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
+    }
+
+    /**
+     * Search word
+     * @param dto WordRequestDto
+     * @return Response message, WordResponseDto
+     * @throws Exception all of error
+     */
+    @PostMapping("/cdm/words")
+    public ResponseEntity<ResponseMessage> findById(@RequestBody WordRequestDto dto) throws Exception {
+        ResponseMessage responseMessage = ResponseMessage.builder()
+                .data(wordService.findById(dto.getWord()))
                 .build();
         return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
     }
@@ -77,7 +92,7 @@ public class WordController {
      * @return Response message
      * @throws Exception all of error
      */
-    @PostMapping("/cdm/words")
+    @PostMapping("/cdm/words/init")
     public ResponseEntity<ResponseMessage> delete() throws Exception {
 
 /*        String id = "";
