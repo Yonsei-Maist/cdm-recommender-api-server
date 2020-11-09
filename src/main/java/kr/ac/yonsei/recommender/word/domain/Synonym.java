@@ -27,7 +27,7 @@ public class Synonym {
         private String word;
 
         @Field("id_reference")
-        private String referenceId; //FK
+        private ArrayList referenceId; //FK
     }
 
     @Builder

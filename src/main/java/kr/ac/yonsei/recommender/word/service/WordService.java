@@ -11,6 +11,7 @@ import kr.ac.yonsei.recommender.word.domain.Word;
 import kr.ac.yonsei.recommender.word.dto.PagingDto;
 import kr.ac.yonsei.recommender.word.dto.SimilarityWordResponseDto;
 import kr.ac.yonsei.recommender.word.dto.WordListResponseDto;
+import kr.ac.yonsei.recommender.word.dto.WordResponseDto;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,21 @@ public class WordService {
         SimilarityWord entity = result.get(0);
 
         return new SimilarityWordResponseDto(entity);
+    }
+
+    /**
+     * Search word
+     * @param word
+     * @return WordResponseDto
+     * @throws Exception all of error
+     */
+    @Transactional(readOnly = true)
+    public WordResponseDto findById(String word) throws Exception {
+
+        Word entity = wordRepository.findByWord(word)
+                .orElseThrow(() -> new IllegalArgumentException("id="+word));
+
+        return new WordResponseDto(entity);
     }
 
     /**
@@ -120,5 +136,6 @@ public class WordService {
     public void delete() throws Exception {
         wordRepository.deleteAll();
     }
+
 
 }

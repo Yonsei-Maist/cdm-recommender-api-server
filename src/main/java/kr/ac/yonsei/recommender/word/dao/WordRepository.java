@@ -10,9 +10,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.Optional;
+
 public interface WordRepository extends MongoRepository<Word, String> {
 
     int countAllBy();
+
+    Optional<Word> findByWord(String word);
 
     Page<Word> findAllByOrderByWordAsc(Pageable pageable);
 }
