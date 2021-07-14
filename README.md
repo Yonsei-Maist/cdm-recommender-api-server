@@ -70,7 +70,7 @@ spring:
 
 <!-- AUTHOR -->
 ## Author
-Mina Kim, Yonsei Univ. Researcher since 2020.08 ~ 2021.06
+Mina Kim, Yonsei Univ. Researcher since 2020.08 ~ 2021.06  
 Chanwoo Gwon, Yonsei Univ. Researcher since 2021.05 ~
 
 <!-- MAINTAINER -->
