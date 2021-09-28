@@ -7,11 +7,11 @@ spring:
   profiles: local
   data:
     mongodb:
-      host: ENC(qXPRbNcp2LLbys7XBJZbs6lHs9INERMpB6p14pXWbdg=) # format of text to need to decrypt
+      host: ENC(MBY9rwdupIyGBSjyVCKoJ6Iof6pEFS+ohMawL4HONZtN8bnU2v487BvmqGKaa/ds) # format of text to need to decrypt
       port: ENC(3QAKffLGMBEyXrtaDNGElruN1bep4JUtxL5ILtQ5lQ4=)
-      database: ENC(TVviqA/lIxgtqKVrygHwocDxeKIxs8VIXiWWMFiEYFM=)
-      username: ENC(TVviqA/lIxgtqKVrygHwocDxeKIxs8VIXiWWMFiEYFM=)
-      password: ENC(amjTikz/7Q/9JaBalhKuJRjKHpJvyZfx7FqgsWXKv7g=)
+      database: ENC(hiR/BQdgYXx0t5new+iykrOTti/rAlajb5UFAoQnm1Y=)
+      username: ENC(hiR/BQdgYXx0t5new+iykrOTti/rAlajb5UFAoQnm1Y=)
+      password: ENC(X3Fdb3SPDusQjJUQ6UI2K6VPW24yRO7cxDV2cWSi16s=)
 logging:
   level:
     root: debug
@@ -21,11 +21,11 @@ spring:
   profiles: dev
   data:
     mongodb:
-      host: ENC(qXPRbNcp2LLbys7XBJZbs6lHs9INERMpB6p14pXWbdg=) # format of text to need to decrypt
+      host: ENC(MBY9rwdupIyGBSjyVCKoJ6Iof6pEFS+ohMawL4HONZtN8bnU2v487BvmqGKaa/ds) # format of text to need to decrypt
       port: ENC(3QAKffLGMBEyXrtaDNGElruN1bep4JUtxL5ILtQ5lQ4=)
-      database: ENC(TVviqA/lIxgtqKVrygHwocDxeKIxs8VIXiWWMFiEYFM=)
-      username: ENC(TVviqA/lIxgtqKVrygHwocDxeKIxs8VIXiWWMFiEYFM=)
-      password: ENC(amjTikz/7Q/9JaBalhKuJRjKHpJvyZfx7FqgsWXKv7g=)
+      database: ENC(hiR/BQdgYXx0t5new+iykrOTti/rAlajb5UFAoQnm1Y=)
+      username: ENC(hiR/BQdgYXx0t5new+iykrOTti/rAlajb5UFAoQnm1Y=)
+      password: ENC(X3Fdb3SPDusQjJUQ6UI2K6VPW24yRO7cxDV2cWSi16s=)
 server:
   port: 8899
 logging:
