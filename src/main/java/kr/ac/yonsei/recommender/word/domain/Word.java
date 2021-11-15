@@ -29,16 +29,16 @@ public class Word {
     private String word;
 
     @Field("bool_is_emr")
-    private String emrExists;
+    private boolean isEmr;
 
     @Field("synonym")
     private Synonym synonym;
 
     @Builder
-    public Word(String id, String word, String emrExists, Synonym synonym) {
+    public Word(String id, String word, boolean isEmr, Synonym synonym) {
         this.id = id;
         this.word = word;
-        this.emrExists = emrExists;
+        this.isEmr = isEmr;
         this.synonym = synonym;
     }
 }

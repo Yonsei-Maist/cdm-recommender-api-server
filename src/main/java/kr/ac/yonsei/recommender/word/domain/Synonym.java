@@ -1,8 +1,6 @@
 package kr.ac.yonsei.recommender.word.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -21,7 +19,10 @@ public class Synonym {
 
     @NoArgsConstructor
     @Getter
-    public class SynonymWord {
+    @Setter
+    @Builder
+    @AllArgsConstructor
+    public static class SynonymWord {
 
         @Field("str_text")
         private String word;

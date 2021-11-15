@@ -34,7 +34,8 @@ public class SimilarityWord {
 
     @NoArgsConstructor
     @Getter
-    public class CdmWord {
+    @Setter
+    public static class CdmWord {
 
         @Field("id_word_cdm")
         private String cdmWordId;

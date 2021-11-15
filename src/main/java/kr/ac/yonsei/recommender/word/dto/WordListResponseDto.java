@@ -19,13 +19,13 @@ public class WordListResponseDto {
 
     private String id;
     private String word;
-    private String emrExists;
+    private boolean emrExists;
     private Synonym synonym;
 
     public WordListResponseDto(Word entity){
         this.id = entity.getId();
         this.word = entity.getWord();
-        this.emrExists = entity.getEmrExists();
+        this.emrExists = entity.isEmr();
         this.synonym = entity.getSynonym();
     }
 

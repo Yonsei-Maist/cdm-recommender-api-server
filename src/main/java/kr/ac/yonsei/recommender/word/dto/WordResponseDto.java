@@ -10,11 +10,11 @@ public class WordResponseDto {
 
     private String id;
     private String word;
-    private String emrExists;
+    private boolean emrExists;
 
     public WordResponseDto(Word entity){
         this.id = entity.getId();
         this.word = entity.getWord();
-        this.emrExists = entity.getEmrExists();
+        this.emrExists = entity.isEmr();
     }
 }

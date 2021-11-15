@@ -5,16 +5,17 @@
  */
 package kr.ac.yonsei.recommender.word.service;
 
+import kr.ac.yonsei.recommender.word.dao.SimilarityWordRepository;
+import kr.ac.yonsei.recommender.word.dao.SynonymRepository;
 import kr.ac.yonsei.recommender.word.dao.WordRepository;
 import kr.ac.yonsei.recommender.word.domain.SimilarityWord;
+import kr.ac.yonsei.recommender.word.domain.Synonym;
 import kr.ac.yonsei.recommender.word.domain.Word;
-import kr.ac.yonsei.recommender.word.dto.PagingDto;
-import kr.ac.yonsei.recommender.word.dto.SimilarityWordResponseDto;
-import kr.ac.yonsei.recommender.word.dto.WordListResponseDto;
-import kr.ac.yonsei.recommender.word.dto.WordResponseDto;
+import kr.ac.yonsei.recommender.word.dto.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -22,6 +23,10 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +38,10 @@ public class WordService {
 
     @NonNull
     private final WordRepository wordRepository;
+    @Autowired
+    private SimilarityWordRepository similarityWordRepository;
+    @Autowired
+    private SynonymRepository synonymRepository;
 
     @Autowired
     MongoTemplate mongoTemplate;
@@ -64,17 +73,38 @@ public class WordService {
 
     /**
      * Search word
-     * @param word
+     * @param word max 3 word sequences
      * @return WordResponseDto
      * @throws Exception all of error
      */
     @Transactional(readOnly = true)
     public WordResponseDto findById(String word) throws Exception {
+//        Word entity = wordRepository.findByWord(word)
+//                .orElseThrow(() -> new IllegalArgumentException("id="+word));
 
-        Word entity = wordRepository.findByWord(word)
-                .orElseThrow(() -> new IllegalArgumentException("id="+word));
+        ArrayList<String> searchList = new ArrayList<>();
+        int maxLength = 3;
 
-        return new WordResponseDto(entity);
+        // first, find max sequences
+        searchList.add(word);
+
+        String[] split = word.split("\\s");
+        List<String> splitList = Arrays.asList(split);
+        int total = split.length;
+        for (int i = maxLength;i > 0 ;i--) {
+            for (int j = 0; j < total - i + 1;j++) {
+                searchList.addAll(splitList.subList(j, j + i));
+            }
+        }
+
+        List<WordResponseDto> dtoList = wordRepository.findAllByWordIn(searchList).stream().map(WordResponseDto::new).collect(Collectors.toList());
+        if (dtoList.size() > 0) {
+
+            dtoList.sort(((o1, o2) -> o1.getWord().length() - o2.getWord().length()));
+            return dtoList.get(0);
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -137,5 +167,108 @@ public class WordService {
         wordRepository.deleteAll();
     }
 
+    @Transactional
+    public void createWord(WordCreateRequestDto dto) throws Exception {
+        Word emr = wordRepository.findByWord(dto.getEmrWord()).orElse(null);
+        Word cdm = wordRepository.findById(dto.getCdmId()).orElse(null);
+        SimilarityWord similarityWord = null;
 
+        if (cdm == null) {
+            throw new Exception("There are no CDM:" + dto.getCdmId());
+        }
+
+        if (emr == null) {
+            //create emr word
+            emr = Word.builder()
+                    .word(dto.getEmrWord())
+                    .id(dto.getEmrWord().replace(" ", "_"))
+                    .isEmr(true)
+                    .build();
+
+            wordRepository.save(emr);
+        } else {
+            similarityWord = similarityWordRepository.findByEmrWordId(emr.getId()).orElse(null);
+        }
+
+        SimilarityWord.CdmWord cdmWord = new SimilarityWord.CdmWord();
+        cdmWord.setCdmWordId(cdm.getId());
+        cdmWord.setFloatSimilarity(1);
+        if (similarityWord != null) {
+            if (similarityWord.getCdmWordsList() != null) {
+                similarityWord.getCdmWordsList().add(cdmWord);
+            } else {
+                ArrayList<SimilarityWord.CdmWord> cdmWordList = new ArrayList<>();
+                cdmWordList.add(cdmWord);
+                similarityWord.setCdmWordsList(cdmWordList);
+            }
+        } else {
+            ArrayList<SimilarityWord.CdmWord> cdmWordList = new ArrayList<>();
+            cdmWordList.add(cdmWord);
+            similarityWord = SimilarityWord.builder()
+                    .emrWordId(emr.getId())
+                    .cdmWordsList(cdmWordList)
+                    .build();
+        }
+
+        similarityWordRepository.save(similarityWord);
+    }
+
+    @Transactional
+    public List<WordAllResponseDto> findAllCdmWords() {
+        return wordRepository.findAllByIsEmrOrderByWordAsc(false).stream().map(WordAllResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void insertBatchFiles() throws Exception {
+        ClassPathResource resource = new ClassPathResource("init/batch.txt");
+
+        HashMap<String, Word> wordList = new HashMap<>();
+        HashMap<String, Synonym> synonymList = new HashMap<>();
+        File file = resource.getFile();
+        FileInputStream stream = new FileInputStream(file);
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(stream))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] split = line.split("\\t");
+                if (split.length < 2) {
+                    System.out.println(line);
+                    continue;
+                }
+
+                String word = split[1];
+                String synonym = split[0];
+                Word wordObj;
+                Synonym synonymObj;
+                if (!wordList.containsKey(word)) {
+                    wordObj = Word.builder()
+                            .word(word)
+                            .isEmr(true)
+                            .build();
+                    wordRepository.save(wordObj);
+                    wordList.put(word, wordObj);
+                } else {
+                    wordObj = wordList.get(word);
+                }
+
+                Synonym.SynonymWord synonymWord = Synonym.SynonymWord.builder().word(synonym).build();
+
+                if (!synonymList.containsKey(word)) {
+                    ArrayList<Synonym.SynonymWord> synonymWordList = new ArrayList<>();
+                    synonymWordList.add(synonymWord);
+                    synonymObj = Synonym.builder()
+                            .emrWordId(wordObj.getId())
+                            .synonymList(synonymWordList)
+                            .build();
+
+                    synonymList.put(word, synonymObj);
+                } else {
+                    synonymObj = synonymList.get(word);
+                    synonymObj.getSynonymList().add(synonymWord);
+                }
+            }
+        }
+
+        synonymRepository.saveAll(synonymList.values());
+    }
 }

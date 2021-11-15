@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface WordRepository extends MongoRepository<Word, String> {
@@ -18,5 +19,9 @@ public interface WordRepository extends MongoRepository<Word, String> {
 
     Optional<Word> findByWord(String word);
 
+    List<Word> findAllByWordIn(Iterable<String> words);
+
     Page<Word> findAllByOrderByWordAsc(Pageable pageable);
+
+    List<Word> findAllByIsEmrOrderByWordAsc(boolean isEmr);
 }

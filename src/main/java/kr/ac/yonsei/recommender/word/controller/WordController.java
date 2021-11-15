@@ -6,10 +6,7 @@
 package kr.ac.yonsei.recommender.word.controller;
 
 import kr.ac.yonsei.recommender.global.common.ResponseMessage;
-import kr.ac.yonsei.recommender.word.dto.PagingDto;
-import kr.ac.yonsei.recommender.word.dto.SimilarityWordRequestDto;
-import kr.ac.yonsei.recommender.word.dto.WordListResponseDto;
-import kr.ac.yonsei.recommender.word.dto.WordRequestDto;
+import kr.ac.yonsei.recommender.word.dto.*;
 import kr.ac.yonsei.recommender.word.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
@@ -130,6 +127,24 @@ public class WordController {
         ResponseMessage responseMessage = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, httpEntity, ResponseMessage.class).getBody();
 
 */
+        return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
+    }
+
+    @PostMapping("/cdm/similarity/create")
+    public ResponseEntity<ResponseMessage> createEmrCdmWordPair(@RequestBody WordCreateRequestDto dto) throws Exception {
+        this.wordService.createWord(dto);
+        return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
+    }
+
+    @PostMapping("/cdm/all")
+    public ResponseEntity<ResponseMessage> findCdmAll() throws Exception {
+        ResponseMessage message = ResponseMessage.builder().data(this.wordService.findAllCdmWords()).build();
+        return new ResponseEntity<ResponseMessage>(message, HttpStatus.OK);
+    }
+
+    @PostMapping("cdm/batch")
+    public ResponseEntity<ResponseMessage> batchAll() throws Exception {
+        this.wordService.insertBatchFiles();
         return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
     }
 }
