@@ -1,0 +1,21 @@
+_id: req_wrk_20b63d58927542b4af7e7b58b2db4ee7237fbbac
+type: Request
+parentId: fld_wrk_20b63d58927542b4af7e7b58b2db4ee744363ccb
+modified: 1637219620285
+created: 1637219620285
+url: "{{ base_url }}/cdm/all"
+name: get all CDM list
+description: ""
+method: POST
+body: {}
+parameters: []
+headers: []
+authentication: {}
+metaSortKey: -1637219620285
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

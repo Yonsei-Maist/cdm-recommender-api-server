@@ -1,0 +1,28 @@
+_id: req_wrk_20b63d58927542b4af7e7b58b2db4ee7bd30c4ec
+type: Request
+parentId: fld_wrk_20b63d58927542b4af7e7b58b2db4ee744363ccb
+modified: 1637219620342
+created: 1637219620342
+url: "{{ base_url }}/cdm/words"
+name: Search words
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "word": "string"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1637219620342
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

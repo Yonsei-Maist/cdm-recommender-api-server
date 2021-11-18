@@ -1,0 +1,14 @@
+_id: env_env_6020cad5a5de9155c5bc613da75bea7b0e179f21_sub
+type: Environment
+parentId: env_6020cad5a5de9155c5bc613da75bea7b0e179f21
+modified: 1637219620362
+created: 1637219620362
+name: OpenAPI env
+data:
+  scheme: http
+  base_path: ""
+  host: maist.yonsei.ac.kr:8899
+dataPropertyOrder: null
+color: null
+isPrivate: false
+metaSortKey: 1637219620362
