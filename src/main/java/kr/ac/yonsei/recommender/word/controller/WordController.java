@@ -37,7 +37,7 @@ public class WordController {
     @PostMapping("/cdm/similarity/words")
     public ResponseEntity<ResponseMessage> findByEmrWordId(@RequestBody SimilarityWordRequestDto dto) throws Exception {
         ResponseMessage responseMessage = ResponseMessage.builder()
-                .data(wordService.findByEmrWordId(dto.getId()))
+                .data(wordService.findByEmrWordId(dto.getId(), dto.isSynonym()))
                 .build();
         return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
     }

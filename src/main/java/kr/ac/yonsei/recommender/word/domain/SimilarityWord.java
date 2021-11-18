@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -23,14 +24,13 @@ public class SimilarityWord {
 
     @Id
     @Field("_id")
-    private String id;
+    private ObjectId id;
 
     @Field("id_word_emr")
-    private String emrWordId; //FK(COL_WORD)
+    private ObjectId emrWordId; //FK(COL_WORD)
 
     @Field("arr_cdm_words")
     private ArrayList<CdmWord> cdmWordsList;
-
 
     @NoArgsConstructor
     @Getter
@@ -38,7 +38,7 @@ public class SimilarityWord {
     public static class CdmWord {
 
         @Field("id_word_cdm")
-        private String cdmWordId;
+        private ObjectId cdmWordId;
 
         @Field("float_similarity")
         private float floatSimilarity;
@@ -48,7 +48,7 @@ public class SimilarityWord {
     }
 
     @Builder
-    public SimilarityWord(String id, String emrWordId, ArrayList<CdmWord> cdmWordsList) {
+    public SimilarityWord(ObjectId id, ObjectId emrWordId, ArrayList<CdmWord> cdmWordsList) {
         this.id = id;
         this.emrWordId = emrWordId;
         this.cdmWordsList = cdmWordsList;

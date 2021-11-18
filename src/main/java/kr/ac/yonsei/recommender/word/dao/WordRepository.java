@@ -20,8 +20,13 @@ public interface WordRepository extends MongoRepository<Word, String> {
     Optional<Word> findByWord(String word);
 
     List<Word> findAllByWordIn(Iterable<String> words);
+    List<Word> findAllByIsEmrAndWordIn(boolean isEmr, Iterable<String> words);
 
     Page<Word> findAllByOrderByWordAsc(Pageable pageable);
 
     List<Word> findAllByIsEmrOrderByWordAsc(boolean isEmr);
+
+    Optional<Word> findByWordAndIsEmr(String word, boolean isEmr);
+    Optional<Word> findByWordAndIsEmrAndIsSynonym(String word, boolean isEmr, boolean isSynonym);
+    Optional<Word> findByIdAndIsEmr(String id, boolean isEmr);
 }

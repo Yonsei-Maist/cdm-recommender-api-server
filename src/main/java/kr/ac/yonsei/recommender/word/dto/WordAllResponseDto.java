@@ -4,6 +4,7 @@ import kr.ac.yonsei.recommender.word.domain.Word;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 
 @Getter
 @Setter
@@ -15,7 +16,7 @@ public class WordAllResponseDto {
 
     public WordAllResponseDto(Word cdm) {
         this.word = cdm.getWord();
-        this.id = cdm.getId();
-        isEmr = cdm.isEmr();
+        this.id = cdm.getId().toHexString();
+        this.isEmr = cdm.isEmr();
     }
 }
