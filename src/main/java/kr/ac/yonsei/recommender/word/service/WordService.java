@@ -51,7 +51,7 @@ public class WordService {
      * @throws Exception all of error
      */
     @Transactional(readOnly = true)
-    public SimilarityWordResponseDto findByEmrWordId(String id, boolean isSynonym) throws Exception {
+    public SimilarityWordResponseDto findByEmrWordId(String id) throws Exception {
         Word word = wordRepository.findById(id).orElse(null);
         if (word == null) {
             throw new Exception("Wrong id:" + id);
@@ -226,8 +226,8 @@ public class WordService {
     }
 
     @Transactional
-    public List<WordAllResponseDto> findAllCdmWords() {
-        return wordRepository.findAllByIsEmrOrderByWordAsc(false).stream().map(WordAllResponseDto::new).collect(Collectors.toList());
+    public List<WordResponseDto> findAllCdmWords() {
+        return wordRepository.findAllByIsEmrOrderByWordAsc(false).stream().map(WordResponseDto::new).collect(Collectors.toList());
     }
 
     @Transactional

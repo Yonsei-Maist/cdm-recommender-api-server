@@ -16,5 +16,4 @@ import org.bson.types.ObjectId;
 public class SimilarityWordRequestDto {
 
     private String id;
-    private boolean isSynonym;
 }

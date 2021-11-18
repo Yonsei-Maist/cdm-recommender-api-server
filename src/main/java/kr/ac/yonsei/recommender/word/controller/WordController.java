@@ -37,7 +37,7 @@ public class WordController {
     @PostMapping("/cdm/similarity/words")
     public ResponseEntity<ResponseMessage> findByEmrWordId(@RequestBody SimilarityWordRequestDto dto) throws Exception {
         ResponseMessage responseMessage = ResponseMessage.builder()
-                .data(wordService.findByEmrWordId(dto.getId(), dto.isSynonym()))
+                .data(wordService.findByEmrWordId(dto.getId()))
                 .build();
         return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
     }
@@ -142,7 +142,7 @@ public class WordController {
         return new ResponseEntity<ResponseMessage>(message, HttpStatus.OK);
     }
 
-    @PostMapping("cdm/batch")
+    @PostMapping("/cdm/batch")
     public ResponseEntity<ResponseMessage> batchAll() throws Exception {
         this.wordService.insertBatchFiles();
         return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
