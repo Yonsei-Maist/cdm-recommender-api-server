@@ -1,7 +1,7 @@
 _id: spc_8a84afa5711a46969f21d9fc1080ba50
 type: ApiSpec
 parentId: wrk_20b63d58927542b4af7e7b58b2db4ee7
-modified: 1637219626330
+modified: 1637557939399
 created: 1637211520157
 fileName: cdm-recommender-api-server.yaml
 contents: |-
@@ -216,7 +216,9 @@ contents: |-
                   - type: object
                     properties:
                       data:
-                        $ref: '#/components/schemas/Word'
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Word'
         operationId: searchWord
         description: |
                   Search words and response data if it is EMR or Synonym
