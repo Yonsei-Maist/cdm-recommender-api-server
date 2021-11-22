@@ -1,6 +1,7 @@
 package kr.ac.yonsei.recommender.word.domain;
 
 import lombok.*;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class Synonym {
 
     @Field("id_word_emr")
-    private String emrWordId; //FK(COL_WORD)
+    private ObjectId emrWordId; //FK(COL_WORD)
 
     @Field("arr_synonym")
     private ArrayList<SynonymWord> synonymList;
@@ -32,7 +33,7 @@ public class Synonym {
     }
 
     @Builder
-    public Synonym(String emrWordId, ArrayList synonymList) {
+    public Synonym(ObjectId emrWordId, ArrayList synonymList) {
         this.emrWordId = emrWordId;
         this.synonymList = synonymList;
     }

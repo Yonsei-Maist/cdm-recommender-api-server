@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -23,7 +24,7 @@ public class Word {
 
     @Id
     @Field("_id")
-    private String id; //PK emrWordId
+    private ObjectId id; //PK emrWordId
 
     @Field("str_text")
     private String word;
@@ -31,14 +32,18 @@ public class Word {
     @Field("bool_is_emr")
     private boolean isEmr;
 
+    @Field("bool_is_synonym")
+    private boolean isSynonym;
+
     @Field("synonym")
     private Synonym synonym;
 
     @Builder
-    public Word(String id, String word, boolean isEmr, Synonym synonym) {
+    public Word(ObjectId id, String word, boolean isEmr, boolean isSynonym, Synonym synonym) {
         this.id = id;
         this.word = word;
         this.isEmr = isEmr;
+        this.isSynonym = isSynonym;
         this.synonym = synonym;
     }
 }

@@ -1,0 +1,30 @@
+_id: req_wrk_20b63d58927542b4af7e7b58b2db4ee70009c7ea
+type: Request
+parentId: fld_wrk_20b63d58927542b4af7e7b58b2db4ee7cdba60a5
+modified: 1637219620356
+created: 1637219620356
+url: "{{ base_url }}/emr/doc"
+name: Save doc
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+      "userId": "string",
+      "title": "string",
+      "content": "string"
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1637219620356
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

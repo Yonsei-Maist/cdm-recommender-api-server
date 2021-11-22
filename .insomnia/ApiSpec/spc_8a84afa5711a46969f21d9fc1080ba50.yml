@@ -1,0 +1,338 @@
+_id: spc_8a84afa5711a46969f21d9fc1080ba50
+type: ApiSpec
+parentId: wrk_20b63d58927542b4af7e7b58b2db4ee7
+modified: 1637557939399
+created: 1637211520157
+fileName: cdm-recommender-api-server.yaml
+contents: |-
+  openapi: 3.0.0
+  info:
+    title: MAIST MEDICAL MARKER
+    version: 1.0.0
+    description: Basic MAIST Spring boot
+  servers:
+    - url: http://maist.yonsei.ac.kr:8899
+  tags:
+    - name: Doc
+    - name: Word
+  components:
+    schemas:
+      Response:
+        properties:
+          id:
+            type: integer
+            example: 200
+          version:
+            type: string
+            example: server version
+          result:
+            type: string
+            example: success/fail
+          message:
+            type: string
+            example: the message for user (when error occurred)
+          errCode:
+            type: integer
+            description: error code by response
+      Word:
+        properties:
+          id:
+            type: string
+            description: word id
+          word:
+            type: string
+            description: word text
+          emr:
+            type: boolean
+            description: is emr word
+          synonym:
+            type: boolean
+            description: is synonym word
+        
+  paths:
+    "/emr/doc":
+      post:
+        summary: Save doc
+        tags:
+        - Doc
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+                  title:
+                    type: string
+                  content:
+                    type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  allOf:
+                  - $ref: '#/components/schemas/Response'
+        operationId: saveDoc
+        description: |
+                  Save EMR document
+    "/emr/doc/page":
+      post:
+        summary: Get One document by id
+        tags:
+        - Doc
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id: 
+                    type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  allOf:
+                  - $ref: '#/components/schemas/Response'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                          title:
+                            type: string
+                          content:
+                            type: string
+        operationId: getDoc
+        description: |
+                  Get document by Id
+    "/emr/doc/list":
+      post:
+        summary: Get list of documents
+        tags:
+        - Doc
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  userId:
+                    type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  allOf:
+                  - $ref: '#/components/schemas/Response'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          id:
+                            type: string
+                            description: id of document
+                          title:
+                            type: string
+                            description: title of document
+        operationId: getListDoc
+        description: |
+                  Get List of document(paging)
+    "/cdm/similarity/words":
+      post:
+        summary: Get similar CDM words by EMR id
+        tags:
+        - Word
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: Id of EMR word
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  allOf:
+                  - $ref: '#/components/schemas/Response'
+                  - type: object
+                    properties:
+                      emrWordId:
+                        type: string
+                        description: Id of EMR word
+                      cdmWordList:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            cdmWordId:
+                              type: string
+                              description: Id of CDM word
+                            floatSimilarity:
+                              type: number
+                              description: similarity between CDM and EMR
+                            detail:
+                              $ref: '#/components/schemas/Word'
+        operationId: getSimilarityCdmWords
+        description: |
+                  Get similar CDM wordds by emr id
+    
+    "/cdm/words":
+      post:
+        summary: Search words
+        tags:
+        - Word
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  word:
+                    type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  allOf:
+                  - $ref: '#/components/schemas/Response'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Word'
+        operationId: searchWord
+        description: |
+                  Search words and response data if it is EMR or Synonym
+    "/cdm/words/list":
+      post:
+        summary: get pairs of relationship between EMR Synonyms
+        tags:
+        - Word
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  currentPageNo:
+                    type: integer
+                  recordCountPerPage:
+                    type: integer
+                    example: 20
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  allOf:
+                  - $ref: '#/components/schemas/Response'
+                  - type: object
+                    properties:
+                      recordCountPerPage:
+                        type: integer
+                      totalRecordCount:
+                        type: integer
+                      wordList:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: string
+                              description: id of emr
+                            word:
+                              type: string
+                              description: word text
+                            emr:
+                              type: boolean
+                              description: is emr
+                            synonym:
+                              type: object
+                              properties:
+                                emrWordId:
+                                  type: string
+                                  description: id of emr
+                                synonymList:
+                                  type: array
+                                  description: synonym list
+                                  items:
+                                    type: object
+                                    properties: 
+                                      word:
+                                        type: string
+                                        description: word text
+                                      referenceId:
+                                        type: string
+                                        description: occurred document id
+        operationId: getRelationshipSynonymList
+        description: |
+                  Get pairs of relationship between EMR Synonyms (paging)
+    "/cdm/similarity/create":
+      post:
+        summary: Create emr & cdm pair
+        tags:
+        - Word
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  emrWord:
+                    type: string
+                  cdmId:
+                    type: string
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  allOf:
+                  - $ref: '#/components/schemas/Response'
+        operationId: createEmrCdmPair
+        description: |
+                  Create EMR & CDM similarity pair
+    "/cdm/all":
+      post:
+        summary: get all CDM list
+        tags:
+        - Word
+        responses:
+          '200':
+            description: OK
+            content:
+              application/json:
+                schema:
+                  allOf:
+                  - $ref: '#/components/schemas/Response'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Word'
+        operationId: getAllCDMWords
+        description: |
+                  Get all CDM words list
+contentType: yaml

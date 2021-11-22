@@ -31,7 +31,7 @@ server:
 logging:
   level:
     root: info
-
+    org.springframework.data.mongodb.core.MongoTemplate: DEBUG
 --- # prod
 spring:
   profiles: prod

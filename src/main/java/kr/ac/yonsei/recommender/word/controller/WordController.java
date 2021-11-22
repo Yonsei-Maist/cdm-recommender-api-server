@@ -142,7 +142,7 @@ public class WordController {
         return new ResponseEntity<ResponseMessage>(message, HttpStatus.OK);
     }
 
-    @PostMapping("cdm/batch")
+    @PostMapping("/cdm/batch")
     public ResponseEntity<ResponseMessage> batchAll() throws Exception {
         this.wordService.insertBatchFiles();
         return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
