@@ -78,7 +78,7 @@ public class WordService {
      * @throws Exception all of error
      */
     @Transactional(readOnly = true)
-    public WordResponseDto findById(String word) throws Exception {
+    public List<WordResponseDto> findById(String word) throws Exception {
 //        Word entity = wordRepository.findByWord(word)
 //                .orElseThrow(() -> new IllegalArgumentException("id="+word));
 
@@ -97,14 +97,7 @@ public class WordService {
             }
         }
 
-        List<WordResponseDto> dtoList = wordRepository.findAllByWordIn(searchList).stream().map(WordResponseDto::new).collect(Collectors.toList());
-        if (dtoList.size() > 0) {
-
-            dtoList.sort(((o1, o2) -> o1.getWord().length() - o2.getWord().length()));
-            return dtoList.get(0);
-        } else {
-            return null;
-        }
+        return wordRepository.findAllByWordIn(searchList).stream().map(WordResponseDto::new).collect(Collectors.toList());
     }
 
     /**
