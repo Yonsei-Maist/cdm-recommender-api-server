@@ -100,17 +100,19 @@ public class WordService {
 //                .orElseThrow(() -> new IllegalArgumentException("id="+word));
 
         ArrayList<String> searchList = new ArrayList<>();
-        int maxLength = 3;
 
         // first, find max sequences
         searchList.add(word);
 
         String[] split = word.split("\\s");
         List<String> splitList = Arrays.asList(split);
-        int total = split.length;
+        int maxLength = splitList.size();
         for (int i = maxLength;i > 0 ;i--) {
-            for (int j = 0; j < total - i + 1;j++) {
-                searchList.addAll(splitList.subList(j, j + i));
+            int wordSize = i - 1;
+            for (int j = 0; j < maxLength - wordSize + 1;j++) {
+                String searchItem = String.join(" ",splitList.subList(j, j + wordSize));
+                if (!"".equals(searchItem.trim()) && !searchList.contains(searchItem))
+                    searchList.add(searchItem);
             }
         }
 
