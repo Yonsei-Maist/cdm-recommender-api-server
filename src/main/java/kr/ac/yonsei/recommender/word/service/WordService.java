@@ -175,7 +175,7 @@ public class WordService {
     }
 
     @Transactional
-    public void createWord(WordCreateRequestDto dto) throws Exception {
+    public WordCreateResponseDto createWord(WordCreateRequestDto dto) throws Exception {
         Word emr = wordRepository.findByWordAndIsEmr(dto.getEmrWord(), true).orElse(null);
         Word cdm = wordRepository.findById(dto.getCdmId()).orElse(null);
         SimilarityWord similarityWord = null;
@@ -201,7 +201,14 @@ public class WordService {
         cdmWord.setFloatSimilarity(1);
         if (similarityWord != null) {
             if (similarityWord.getCdmWordsList() != null) {
-                similarityWord.getCdmWordsList().add(cdmWord);
+                // check duplication
+
+                SimilarityWord.CdmWord duplicated = similarityWord.getCdmWordsList().stream().filter(
+                        (cdmWord1 -> cdmWord1.getCdmWordId().equals(cdmWord.getCdmWordId()))).findAny().orElse(null);
+                if (duplicated == null)
+                    similarityWord.getCdmWordsList().add(cdmWord);
+                else
+                    throw new Exception("Duplicated Creation");
             } else {
                 ArrayList<SimilarityWord.CdmWord> cdmWordList = new ArrayList<>();
                 cdmWordList.add(cdmWord);
@@ -217,6 +224,13 @@ public class WordService {
         }
 
         similarityWordRepository.save(similarityWord);
+
+        return WordCreateResponseDto.builder()
+                .cdmWord(cdm.getWord())
+                .cdmId(cdm.getId().toHexString())
+                .emrWord(emr.getWord())
+                .emrId(emr.getId().toHexString())
+                .build();
     }
 
     @Transactional

@@ -132,8 +132,11 @@ public class WordController {
 
     @PostMapping("/cdm/similarity/create")
     public ResponseEntity<ResponseMessage> createEmrCdmWordPair(@RequestBody WordCreateRequestDto dto) throws Exception {
-        this.wordService.createWord(dto);
-        return new ResponseEntity<ResponseMessage>(new ResponseMessage(), HttpStatus.OK);
+
+        ResponseMessage responseMessage = ResponseMessage.builder()
+                .data(this.wordService.createWord(dto))
+                .build();
+        return new ResponseEntity<ResponseMessage>(responseMessage, HttpStatus.OK);
     }
 
     @PostMapping("/cdm/all")

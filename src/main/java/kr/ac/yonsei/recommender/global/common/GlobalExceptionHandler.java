@@ -90,7 +90,7 @@ public class GlobalExceptionHandler {
 
         ErrorResponseMessage responseMessage = ErrorResponseMessage.builder()
                 .id("200")
-                .message("fail")
+                .message(e.getMessage())
                 .build();
 
         return new ResponseEntity<ErrorResponseMessage>(responseMessage, HttpStatus.OK);
