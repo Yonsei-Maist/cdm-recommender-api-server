@@ -156,7 +156,7 @@ public class WordService {
     public int countAll() throws Exception {
 
         Aggregation aggregation = newAggregation(
-                match(Criteria.where("bool_is_emr").is(true)),
+                match(Criteria.where("bool_is_emr").is(true).and("bool_is_synonym").is(false)),
                 group().count().as("count")
         );
 
