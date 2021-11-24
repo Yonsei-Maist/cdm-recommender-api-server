@@ -129,7 +129,7 @@ public class WordService {
     public List<WordListResponseDto> findAll(PagingDto pagingDto) throws Exception {
 
         Aggregation aggregation = newAggregation(
-                match(Criteria.where("bool_is_emr").is(true))
+                match(Criteria.where("bool_is_emr").is(true).and("bool_is_synonym").is(false))
                 , skip((long)(pagingDto.getCurrentPageNo() - 1) * pagingDto.getRecordCountPerPage())
                 , limit(pagingDto.getRecordCountPerPage())
                 , lookup("COL_SYNONYM", "_id", "id_word_emr", "synonym")
@@ -147,7 +147,7 @@ public class WordService {
         return wordList;
     }
 
-    /**
+    /** 
      * Get the count of CDM&EMR association relationship
      * @return count
      * @throws Exception all of error
