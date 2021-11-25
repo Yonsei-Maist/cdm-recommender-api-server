@@ -11,6 +11,7 @@ import kr.ac.yonsei.recommender.document.dto.DocSaveRequestDto;
 import kr.ac.yonsei.recommender.document.service.DocSerivce;
 import kr.ac.yonsei.recommender.global.common.ResponseMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @Controller
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class DocController {
+public class DocController implements ErrorController {
 
     private final DocSerivce docService;
 
@@ -72,21 +73,15 @@ public class DocController {
      * @return view name
      * @throws Exception all of error
      */
-    @RequestMapping(value="/cdm")
+    @RequestMapping(value={"/", "/error"})
     public String index(HttpServletRequest request, Model model) throws Exception {
         String baseUrl = String.format("%s://%s:%d/",request.getScheme(),  request.getServerName(), request.getServerPort());
         model.addAttribute("APIUrl", baseUrl);
         return "index";
     }
 
-    /**
-     * Redirect
-     * @return redirect /cdm
-     * @throws Exception all of error
-     */
-    @RequestMapping(value="/")
-    public String main() throws Exception {
-        return "redirect:/cdm";
+    @Override
+    public String getErrorPath() {
+        return "/error";
     }
-
 }
